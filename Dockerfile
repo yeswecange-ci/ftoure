@@ -8,19 +8,16 @@ RUN apk add --no-cache \
     zip \
     unzip \
     git \
-    oniguruma-dev \
+    libxml2-dev \
     libpng-dev \
     libjpeg-turbo-dev \
     libwebp-dev \
     freetype-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
-        pdo \
         pdo_mysql \
-        mbstring \
         xml \
         bcmath \
-        opcache \
         gd
 
 # Composer
