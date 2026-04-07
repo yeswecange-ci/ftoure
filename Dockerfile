@@ -18,10 +18,7 @@ RUN apk add --no-cache \
         pdo \
         pdo_mysql \
         mbstring \
-        tokenizer \
         xml \
-        ctype \
-        fileinfo \
         bcmath \
         opcache \
         gd
