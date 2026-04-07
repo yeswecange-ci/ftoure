@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Work extends Model
 {
@@ -17,5 +19,16 @@ class Work extends Model
     public function page()
     {
         return $this->belongsTo(Page::class);
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        return Str::startsWith($this->image, 'img/')
+            ? asset($this->image)
+            : Storage::url($this->image);
     }
 }

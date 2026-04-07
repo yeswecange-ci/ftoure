@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Page extends Model
 {
@@ -44,5 +46,36 @@ class Page extends Model
     public function socialLinks()
     {
         return $this->hasMany(SocialLink::class);
+    }
+
+    public function getHeaderImageUrlAttribute(): ?string
+    {
+        return $this->resolveMediaUrl($this->header_image);
+    }
+
+    public function getBioImage1UrlAttribute(): ?string
+    {
+        return $this->resolveMediaUrl($this->bio_image_1);
+    }
+
+    public function getBioImage2UrlAttribute(): ?string
+    {
+        return $this->resolveMediaUrl($this->bio_image_2);
+    }
+
+    public function getBioImage3UrlAttribute(): ?string
+    {
+        return $this->resolveMediaUrl($this->bio_image_3);
+    }
+
+    protected function resolveMediaUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        return Str::startsWith($path, 'img/')
+            ? asset($path)
+            : Storage::url($path);
     }
 }
