@@ -8,6 +8,7 @@ RUN apk add --no-cache \
     zip \
     unzip \
     git \
+    oniguruma-dev \
     libpng-dev \
     libjpeg-turbo-dev \
     libwebp-dev \
