@@ -49,7 +49,7 @@ Route::get('/Modèle', function () {
     return view('modele', compact('page'));
 })->name('modele');
 
-Route::get('/Entrepeneur-immobilier', function () {
+Route::get('/Entrepreneur-immobilier', function () {
     $page = Page::with(['works', 'news', 'agendas', 'teasers', 'socialLinks'])->where('slug', 'entrepreneur')->firstOrFail();
     return view('entrepreneur', compact('page'));
 })->name('entrepreneur');

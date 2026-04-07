@@ -79,21 +79,54 @@ class PageSeeder extends Seeder
             ['title' => 'LOREM IPSUM DOLOR SIT AMET', 'year_or_label' => 'XXXXXX', 'image' => 'img/Frame5.png', 'role_or_description' => ''],
         ]);
 
-        \App\Models\Page::firstOrCreate(
-            ['slug' => 'presentatrice'],
-            [
-                'title' => 'BIENVENUE SUR LE SITE DE',
-                'subtitle' => 'FAT TOURÉ',
-                'header_image' => 'img/presentatrice.png',
-                'bio_title' => 'LOREM IPSUM DOLOR SIT AMET...',
-                'bio_content' => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
-                'bio_image_1' => 'img/imagebio1.jpg',
-                'bio_image_2' => 'img/imagebio2.jpg',
-                'bio_image_3' => 'img/imagebio3.jpg',
-                'booking_description' => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
-                'booking_phone' => '+33 X XXX XXX XX / +225 X XXX XXX XX',
-                'booking_email' => 'EMAILFATTOURÉ@BOOKING.COM',
-            ]
-        );
+        $presentatrice = \App\Models\Page::create([
+            'slug'                => 'presentatrice',
+            'title'               => 'BIENVENUE SUR LE SITE DE',
+            'subtitle'            => 'FAT TOURÉ',
+            'header_image'        => 'img/presentatrice.png',
+            'bio_title'           => 'LOREM IPSUM DOLOR SIT AMET...',
+            'bio_content'         => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
+            'bio_image_1'         => 'img/imagebio1.jpg',
+            'bio_image_2'         => 'img/imagebio2.jpg',
+            'bio_image_3'         => 'img/imagebio3.jpg',
+            'booking_description' => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
+            'booking_phone'       => '+33 X XXX XXX XX / +225 X XXX XXX XX',
+            'booking_email'       => 'EMAILFATTOURÉ@BOOKING.COM',
+        ]);
+
+        $presentatrice->socialLinks()->createMany([
+            ['platform' => 'facebook',  'url' => '#'],
+            ['platform' => 'instagram', 'url' => '#'],
+            ['platform' => 'tiktok',    'url' => '#'],
+            ['platform' => 'x',         'url' => '#'],
+        ]);
+
+        $modele = \App\Models\Page::create([
+            'slug'                => 'modele',
+            'title'               => 'BIENVENUE SUR LE SITE DE',
+            'subtitle'            => 'FAT TOURÉ',
+            'header_image'        => 'img/modèle.png',
+            'bio_title'           => 'LOREM IPSUM DOLOR SIT AMET...',
+            'bio_content'         => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
+            'bio_image_1'         => 'img/imagebio1.jpg',
+            'bio_image_2'         => 'img/imagebio2.jpg',
+            'bio_image_3'         => 'img/imagebio3.jpg',
+            'booking_description' => 'Proin dictum pellentesque tempor amet semper. Id suspendisse eu purus massa sagittis cras justo.',
+            'booking_phone'       => '+33 X XXX XXX XX / +225 X XXX XXX XX',
+            'booking_email'       => 'EMAILFATTOURÉ@BOOKING.COM',
+        ]);
+
+        $modele->works()->createMany([
+            ['title' => 'COLLECTION PRINTEMPS 2025', 'year_or_label' => '2025', 'image' => 'img/imagebio1.jpg', 'role_or_description' => 'Campagne prêt-à-porter'],
+            ['title' => 'DÉFILÉ ABIDJAN FASHION WEEK', 'year_or_label' => '2024', 'image' => 'img/imagebio2.jpg', 'role_or_description' => 'Tête d\'affiche'],
+            ['title' => 'COUVERTURE MAGAZINE MODE', 'year_or_label' => '2024', 'image' => 'img/imagebio3.jpg', 'role_or_description' => 'Édition spéciale'],
+        ]);
+
+        $modele->socialLinks()->createMany([
+            ['platform' => 'facebook',  'url' => '#'],
+            ['platform' => 'instagram', 'url' => '#'],
+            ['platform' => 'tiktok',    'url' => '#'],
+            ['platform' => 'x',         'url' => '#'],
+        ]);
     }
 }
