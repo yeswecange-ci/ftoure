@@ -1,3 +1,11 @@
+FROM node:22-alpine AS frontend
+
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
 FROM php:8.3-fpm-alpine
 
 # Dépendances système
@@ -35,6 +43,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 
 # Code source
 COPY . .
+
+# Assets compilés par le stage frontend
+COPY --from=frontend /app/public/build ./public/build
 
 # Scripts post-install (génération des classes optimisées, etc.)
 RUN composer run-script post-autoload-dump --no-interaction 2>/dev/null || true
