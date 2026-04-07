@@ -13,12 +13,16 @@ RUN apk add --no-cache \
     libjpeg-turbo-dev \
     libwebp-dev \
     freetype-dev \
+    icu-dev \
+    libzip-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
         pdo_mysql \
         xml \
         bcmath \
-        gd
+        gd \
+        intl \
+        zip
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
