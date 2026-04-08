@@ -87,7 +87,7 @@
                 <div class="relative w-full max-w-lg md:max-w-none">
                     <h1 class="text-[40px] md:text-6xl lg:text-7xl font-light text-gray-800 uppercase leading-[1.1] tracking-tight">
                         {{ $page->title }}<br>
-                        SUR LE SITE DE<br>
+
                         <span class="text-6xl md:text-[100px] lg:text-[120px] font-normal block mt-2">{{ $page->subtitle }}</span>
                     </h1>
                     <div class="absolute @yield('hero-label-offset', '-bottom-6 md:-bottom-20') left-1/3 md:left-1/2 transform -translate-x-1/4">
