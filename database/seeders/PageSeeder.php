@@ -37,6 +37,7 @@ class PageSeeder extends Seeder
             ['title' => 'AFRIFF 2025 : FAT TOURÉ...', 'description' => 'Proin dictum pellentesque tempor...', 'image' => 'img/actualité1.jpg', 'link' => '#', 'is_featured' => true],
             ['title' => 'PRIX DU MEILLEUR FILM...', 'description' => 'Proin dictum pellentesque tempor...', 'image' => 'img/actualité3.jpg', 'link' => '#'],
             ['title' => '" FAT TOURÉ, L’ACTRICE IVOIRIENNE... "', 'description' => 'Proin dictum pellentesque tempor...', 'image' => 'img/actualité2.jpg', 'link' => '#'],
+            ['title' => 'NOUVELLE ACTUALITÉ...', 'description' => 'Proin dictum pellentesque tempor...', 'image' => 'img/actualité4.jpg', 'link' => '#'],
         ]);
 
         $actrice->agendas()->createMany([

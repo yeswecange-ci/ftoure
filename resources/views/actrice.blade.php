@@ -73,9 +73,11 @@
             </div>
             @endif
 
+            @php($nonFeaturedNews = $page->news->where('is_featured', false))
+
             <div class="md:hidden -mx-4 px-4 overflow-x-auto hide-scrollbar">
                 <div class="flex gap-4 pb-2 snap-x snap-mandatory">
-                    @foreach ($page->news as $news)
+                    @foreach ($nonFeaturedNews as $news)
                     @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link])
                     <div class="w-[78vw] max-w-[340px] flex-shrink-0 snap-start">
                         <div class="flex flex-col">
@@ -98,7 +100,7 @@
             </div>
 
             <div class="hidden md:grid grid-cols-3 gap-12">
-                @foreach ($page->news as $news)
+                @foreach ($nonFeaturedNews as $news)
                 @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link])
                 <div class="flex flex-col">
                     <div class="aspect-square overflow-hidden rounded-[30px] mb-6 shadow-sm">
