@@ -13,6 +13,7 @@ class Teaser extends Model
         'title',
         'poster_image',
         'video_url',
+        'video_file',
     ];
 
     public function page()
@@ -29,5 +30,14 @@ class Teaser extends Model
         return Str::startsWith($this->poster_image, 'img/')
             ? asset($this->poster_image)
             : Storage::url($this->poster_image);
+    }
+
+    public function getVideoFileUrlAttribute(): ?string
+    {
+        if (! $this->video_file) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->video_file);
     }
 }

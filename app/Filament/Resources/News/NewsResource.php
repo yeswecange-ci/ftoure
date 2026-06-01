@@ -18,7 +18,13 @@ class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
+
+    protected static ?string $modelLabel = 'Actualité';
+    protected static ?string $pluralModelLabel = 'Actualités';
+    protected static ?string $navigationLabel = 'Actualités';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -34,17 +40,15 @@ class NewsResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListNews::route('/'),
+            'index'  => ListNews::route('/'),
             'create' => CreateNews::route('/create'),
-            'edit' => EditNews::route('/{record}/edit'),
+            'edit'   => EditNews::route('/{record}/edit'),
         ];
     }
 }

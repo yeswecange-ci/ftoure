@@ -18,7 +18,13 @@ class SocialLinkResource extends Resource
 {
     protected static ?string $model = SocialLink::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
+
+    protected static ?string $modelLabel = 'Lien Social';
+    protected static ?string $pluralModelLabel = 'Liens Sociaux';
+    protected static ?string $navigationLabel = 'Liens Sociaux';
+    protected static string|\UnitEnum|null $navigationGroup = 'Paramètres';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {
@@ -32,17 +38,15 @@ class SocialLinkResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListSocialLinks::route('/'),
+            'index'  => ListSocialLinks::route('/'),
             'create' => CreateSocialLink::route('/create'),
-            'edit' => EditSocialLink::route('/{record}/edit'),
+            'edit'   => EditSocialLink::route('/{record}/edit'),
         ];
     }
 }

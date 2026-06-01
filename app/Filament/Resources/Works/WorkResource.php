@@ -18,7 +18,13 @@ class WorkResource extends Resource
 {
     protected static ?string $model = Work::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFilm;
+
+    protected static ?string $modelLabel = 'Réalisation';
+    protected static ?string $pluralModelLabel = 'Réalisations';
+    protected static ?string $navigationLabel = 'Réalisations';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -34,17 +40,15 @@ class WorkResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListWorks::route('/'),
+            'index'  => ListWorks::route('/'),
             'create' => CreateWork::route('/create'),
-            'edit' => EditWork::route('/{record}/edit'),
+            'edit'   => EditWork::route('/{record}/edit'),
         ];
     }
 }

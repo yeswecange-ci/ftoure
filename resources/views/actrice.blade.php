@@ -161,18 +161,24 @@
 
             <div id="teasers-scroller" class="-mx-4 px-4 flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar mb-16 py-8">
                 @foreach ($page->teasers as $teaser)
-                @php($teaserModal = ['title' => $teaser->title, 'videoUrl' => $teaser->video_url])
+                @php($teaserModal = [
+                    'title'      => $teaser->title,
+                    'videoUrl'   => $teaser->video_url,
+                    'videoFile'  => $teaser->video_file ? image_url($teaser->video_file) : null,
+                ])
                 <div class="w-[360px] flex-shrink-0 snap-start bg-white rounded-[30px] overflow-hidden shadow-lg border border-gray-100 group" data-teaser-card>
                     <div class="relative aspect-square">
                         @if($teaser->poster_image)
                         <img src="{{ image_url($teaser->poster_image) }}" alt="{{ $teaser->title }}" class="w-full h-full object-cover">
                         @endif
+                        @if($teaser->video_url || $teaser->video_file)
                         <div class="absolute bottom-6 right-6">
                             <a href="#" data-teaser-modal='@json($teaserModal)'
                                class="w-16 h-16 bg-[#00818a] rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 transition-transform duration-300">
                                 <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </a>
                         </div>
+                        @endif
                     </div>
                     <div class="p-8">
                         <p class="text-gray-500 font-light text-lg mb-1">Teaser</p>
@@ -270,18 +276,25 @@
 
         function openTeaserModal(p) {
             if (!teaserModal) return;
-            var url = p.videoUrl || '';
-            if (!url || url === '#') return;
+            var videoFile = p.videoFile || '';
+            var videoUrl  = p.videoUrl  || '';
+            if (!videoFile && !videoUrl) return;
             teaserTitle.textContent = p.title || '';
-            var yt = toYouTubeEmbed(url);
-            var vm = yt ? null : toVimeoEmbed(url);
-            if (yt || vm) {
-                teaserVideo.pause(); teaserVideo.removeAttribute('src'); teaserVideo.classList.add('hidden');
-                teaserIframe.src = yt || vm; teaserIframe.classList.remove('hidden');
-            } else {
+            if (videoFile) {
                 teaserIframe.src = ''; teaserIframe.classList.add('hidden');
-                teaserVideo.src = url; teaserVideo.classList.remove('hidden');
+                teaserVideo.src = videoFile; teaserVideo.classList.remove('hidden');
                 teaserVideo.play().catch(function () {});
+            } else {
+                var yt = toYouTubeEmbed(videoUrl);
+                var vm = yt ? null : toVimeoEmbed(videoUrl);
+                if (yt || vm) {
+                    teaserVideo.pause(); teaserVideo.removeAttribute('src'); teaserVideo.classList.add('hidden');
+                    teaserIframe.src = yt || vm; teaserIframe.classList.remove('hidden');
+                } else {
+                    teaserIframe.src = ''; teaserIframe.classList.add('hidden');
+                    teaserVideo.src = videoUrl; teaserVideo.classList.remove('hidden');
+                    teaserVideo.play().catch(function () {});
+                }
             }
             teaserModal.classList.remove('hidden'); teaserModal.classList.add('flex');
             document.body.classList.add('overflow-hidden');

@@ -18,7 +18,13 @@ class AgendaResource extends Resource
 {
     protected static ?string $model = Agenda::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
+
+    protected static ?string $modelLabel = 'Agenda';
+    protected static ?string $pluralModelLabel = 'Agendas';
+    protected static ?string $navigationLabel = 'Agendas';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {
@@ -32,17 +38,15 @@ class AgendaResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListAgendas::route('/'),
+            'index'  => ListAgendas::route('/'),
             'create' => CreateAgenda::route('/create'),
-            'edit' => EditAgenda::route('/{record}/edit'),
+            'edit'   => EditAgenda::route('/{record}/edit'),
         ];
     }
 }

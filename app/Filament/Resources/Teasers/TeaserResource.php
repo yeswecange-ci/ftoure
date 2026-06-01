@@ -18,7 +18,13 @@ class TeaserResource extends Resource
 {
     protected static ?string $model = Teaser::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedVideoCamera;
+
+    protected static ?string $modelLabel = 'Teaser';
+    protected static ?string $pluralModelLabel = 'Teasers';
+    protected static ?string $navigationLabel = 'Teasers';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
@@ -32,17 +38,15 @@ class TeaserResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListTeasers::route('/'),
+            'index'  => ListTeasers::route('/'),
             'create' => CreateTeaser::route('/create'),
-            'edit' => EditTeaser::route('/{record}/edit'),
+            'edit'   => EditTeaser::route('/{record}/edit'),
         ];
     }
 }

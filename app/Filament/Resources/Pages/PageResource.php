@@ -20,7 +20,12 @@ class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+
+    protected static ?string $modelLabel = 'Page';
+    protected static ?string $pluralModelLabel = 'Pages';
+    protected static ?string $navigationLabel = 'Pages';
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'slug';
 
@@ -53,10 +58,10 @@ class PageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPages::route('/'),
+            'index'  => ListPages::route('/'),
             'create' => CreatePage::route('/create'),
-            'view' => ViewPage::route('/{record}'),
-            'edit' => EditPage::route('/{record}/edit'),
+            'view'   => ViewPage::route('/{record}'),
+            'edit'   => EditPage::route('/{record}/edit'),
         ];
     }
 }

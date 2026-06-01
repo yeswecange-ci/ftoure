@@ -170,9 +170,10 @@
                         @if($teaser->poster_image)
                         <img src="{{ image_url($teaser->poster_image) }}" alt="{{ $teaser->title }}" class="w-full h-full object-cover">
                         @endif
-                        @if($teaser->video_url)
+                        @if($teaser->video_url || $teaser->video_file)
+                        @php($videoHref = $teaser->video_file ? image_url($teaser->video_file) : $teaser->video_url)
                         <div class="absolute bottom-6 right-6">
-                            <a href="{{ $teaser->video_url }}" target="_blank" rel="noopener noreferrer"
+                            <a href="{{ $videoHref }}" target="_blank" rel="noopener noreferrer"
                                class="w-16 h-16 bg-[#00818a] rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 transition-transform duration-300">
                                 <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </a>
