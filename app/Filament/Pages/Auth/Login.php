@@ -6,5 +6,6 @@ use Filament\Auth\Pages\Login as BaseLogin;
 
 class Login extends BaseLogin
 {
-    protected string $view = 'filament.pages.auth.login';
+    // Utilise la page de connexion native de Filament (rendu Livewire fiable).
+    // Le branding « Fat Touré » provient du brandName() du panel.
 }
