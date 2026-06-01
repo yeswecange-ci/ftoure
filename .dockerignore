@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Node
+node_modules
+
+# Dépendances PHP (réinstallées dans le build)
+vendor
+
+# Fichiers de dev locaux
+.env.example
+.env.backup
+.phpunit.result.cache
+.phpunit.cache
+phpunit.xml
+Homestead.*
+.DS_Store
+
+# IDE / outils
+.idea
+.vscode
+.nova
+.fleet
+.zed
+.phpactor.json
+.claude
+
+# Tests
+tests
+
+# Assets compilés (reconstruits par le stage frontend)
+public/build
+public/hot
+
+# Symlink storage (créé au démarrage)
+public/storage
+
+# Logs et cache runtime (volumes montés en prod, pas dans l'image)
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+bootstrap/cache
