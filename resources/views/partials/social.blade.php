@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
             <h2 class="text-sm md:text-base font-bold uppercase tracking-[0.3em] mb-8">
-                SUIVEZ-MOI SUR MES RÉSEAUX
+                {{ $settings->social_title ?: 'SUIVEZ-MOI SUR MES RÉSEAUX' }}
             </h2>
 
             <div class="flex justify-center gap-6">
@@ -31,13 +31,12 @@
             </div>
         </div>
 
+        @if(! empty($settings->gallery_urls))
         <div class="grid grid-cols-2 md:grid-cols-6 gap-0">
-            <img src="{{ asset('img/imagebio3.jpg') }}"      alt="Social 1" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
-            <img src="{{ asset('img/imagebio1.jpg') }}"      alt="Social 2" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
-            <img src="{{ asset('img/imagebio2.jpg') }}"      alt="Social 3" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
-            <img src="{{ asset('img/actualité1.jpg') }}"     alt="Social 4" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
-            <img src="{{ asset('img/actualité2.jpg') }}"     alt="Social 5" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
-            <img src="{{ asset('img/accueil-actrice.jpg') }}" alt="Social 6" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
+            @foreach($settings->gallery_urls as $galleryImage)
+            <img src="{{ $galleryImage }}" alt="Galerie {{ $loop->iteration }}" class="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer">
+            @endforeach
         </div>
+        @endif
     </div>
 </section>

@@ -14,6 +14,10 @@ class PageSeeder extends Seeder
     {
         $actrice = \App\Models\Page::create([
             'slug' => 'actrice',
+            'name' => 'Actrice',
+            'sort_order' => 1,
+            'is_published' => true,
+            'card_image' => 'img/actrice.png',
             'title' => 'BIENVENUE SUR LE SITE DE',
             'subtitle' => 'FAT TOURÉ',
             'header_image' => 'img/accueil-actrice.jpg',
@@ -61,6 +65,10 @@ class PageSeeder extends Seeder
 
         $entrepreneur = \App\Models\Page::create([
             'slug' => 'entrepreneur',
+            'name' => 'Entrepreneur Immobilier',
+            'sort_order' => 4,
+            'is_published' => true,
+            'card_image' => 'img/entrepreneur.png',
             'title' => 'BIENVENUE SUR LE SITE DE',
             'subtitle' => 'FAT TOURÉ',
             'header_image' => 'img/entrepeneur.jpg',
@@ -82,6 +90,10 @@ class PageSeeder extends Seeder
 
         $presentatrice = \App\Models\Page::create([
             'slug'                => 'presentatrice',
+            'name'                => 'Présentatrice',
+            'sort_order'          => 2,
+            'is_published'        => true,
+            'card_image'          => 'img/presentatrice.png',
             'title'               => 'BIENVENUE SUR LE SITE DE',
             'subtitle'            => 'FAT TOURÉ',
             'header_image'        => 'img/presentatrice.png',
@@ -104,6 +116,10 @@ class PageSeeder extends Seeder
 
         $modele = \App\Models\Page::create([
             'slug'                => 'modele',
+            'name'                => 'Modèle',
+            'sort_order'          => 3,
+            'is_published'        => true,
+            'card_image'          => 'img/modèle.png',
             'title'               => 'BIENVENUE SUR LE SITE DE',
             'subtitle'            => 'FAT TOURÉ',
             'header_image'        => 'img/modèle.png',
@@ -128,6 +144,23 @@ class PageSeeder extends Seeder
             ['platform' => 'instagram', 'url' => '#'],
             ['platform' => 'tiktok',    'url' => '#'],
             ['platform' => 'x',         'url' => '#'],
+        ]);
+
+        // Réglages globaux du site (page d'accueil, booking, galerie réseaux).
+        \App\Models\SiteSetting::updateOrCreate([], [
+            'home_title'     => "BIENVENUE DANS\nL'UNIVERS DE FAT TOURÉ",
+            'home_subtitle'  => "CLIQUEZ SUR UNE PHOTO POUR DÉCOUVRIR L'UNIVERS",
+            'booking_phone'  => '+33 X XXX XXX XX / +225 X XXX XXX XX',
+            'booking_email'  => 'EMAILFATTOURÉ@BOOKING.COM',
+            'social_title'   => 'SUIVEZ-MOI SUR MES RÉSEAUX',
+            'gallery_images' => [
+                'img/imagebio3.jpg',
+                'img/imagebio1.jpg',
+                'img/imagebio2.jpg',
+                'img/actualité1.jpg',
+                'img/actualité2.jpg',
+                'img/accueil-actrice.jpg',
+            ],
         ]);
     }
 }

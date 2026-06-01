@@ -1,58 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Site Fat Touré
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Site vitrine multi-univers de **Fat Touré** (Actrice, Présentatrice, Modèle, Entrepreneur immobilier), avec back-office d'administration **Filament**. Tout le contenu éditorial (textes, images, vidéos, liens, agenda, actualités…) est administrable depuis le tableau de bord.
 
-## About Laravel
+- **Stack** : Laravel 13 · PHP 8.3+ · Filament 5 · Tailwind CSS 4 (Vite) · MySQL
+- **Back-office** : `/admin`
+- **Locale** : Français (traduction FR/EN via widget Google Translate)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Installation locale
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+npm install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Pour un développement local rapide sans base MySQL, un fichier `.env.local` (SQLite) est utilisable :
 
-## Contributing
+```bash
+php artisan migrate --seed --env=local   # crée + peuple une base SQLite locale
+php artisan storage:link --env=local
+npm run build                            # ou: npm run dev
+APP_ENV=local php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Compte de démonstration (hors production uniquement) : `test@example.com` / `password`.
 
-## Code of Conduct
+## Contenu administrable depuis le dashboard
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Écran Filament | Contenu |
+|---|---|
+| **Pages** (univers) | Nom, vignette d'accueil, ordre, publication, en-tête (titre/sous-titre/image), biographie, booking |
+| **Pages → onglets** | Réalisations, Actualités, Agenda, Teasers (vidéo uploadée ou lien), Réseaux sociaux |
+| **Paramètres du site** | Titre/sous-titre de l'accueil, booking de l'accueil, titre + galerie de la section « réseaux » |
 
-## Security Vulnerabilities
+Aucun texte ni image de la partie publique n'est codé en dur : la page d'accueil, le bloc « Découvrez aussi » et la galerie réseaux sont pilotés par les données.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Tests
 
-## License
+```bash
+php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Couvre le rendu de la page d'accueil et des 4 univers, le 404, l'accès au back-office, et l'enregistrement des paramètres du site.
+
+## Déploiement
+
+Image Docker de production (multi-stage : build des assets + nginx + php-fpm + supervisor) :
+
+```bash
+docker build -t fat-toure .
+docker run -p 80:80 --env-file .env fat-toure
+```
+
+Au démarrage, le conteneur exécute `storage:link`, `migrate --force`, `optimize` et publie les assets Filament.
+
+### Variables d'environnement clés
+
+| Variable | Rôle |
+|---|---|
+| `APP_KEY`, `APP_URL`, `DB_*` | Standard Laravel |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Compte administrateur créé/mis à jour par le seeder en production |
+
+> Le panel `/admin` est restreint via `User::canAccessPanel()` ; aucun compte de démonstration n'est créé en production.

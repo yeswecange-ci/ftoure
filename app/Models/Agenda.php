@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ResolvesMediaUrl;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Agenda extends Model
 {
+    use ResolvesMediaUrl;
+
     protected $fillable = [
         'page_id',
         'day',
@@ -24,12 +25,6 @@ class Agenda extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if (! $this->image) {
-            return null;
-        }
-
-        return Str::startsWith($this->image, 'img/')
-            ? asset($this->image)
-            : Storage::url($this->image);
+        return $this->resolveMediaUrl($this->image);
     }
 }

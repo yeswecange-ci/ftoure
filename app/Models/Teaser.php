@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ResolvesMediaUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Teaser extends Model
 {
+    use ResolvesMediaUrl;
+
     protected $fillable = [
         'page_id',
         'title',
@@ -23,21 +25,13 @@ class Teaser extends Model
 
     public function getPosterImageUrlAttribute(): ?string
     {
-        if (! $this->poster_image) {
-            return null;
-        }
-
-        return Str::startsWith($this->poster_image, 'img/')
-            ? asset($this->poster_image)
-            : Storage::url($this->poster_image);
+        return $this->resolveMediaUrl($this->poster_image);
     }
 
     public function getVideoFileUrlAttribute(): ?string
     {
-        if (! $this->video_file) {
-            return null;
-        }
-
-        return Storage::disk('public')->url($this->video_file);
+        return $this->video_file
+            ? Storage::disk('public')->url($this->video_file)
+            : null;
     }
 }

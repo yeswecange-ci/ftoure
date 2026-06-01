@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
@@ -13,6 +14,17 @@ class PageInfolist
         return $schema
             ->components([
                 TextEntry::make('slug'),
+                TextEntry::make('name')
+                    ->label('Nom de l’univers')
+                    ->placeholder('-'),
+                ImageEntry::make('card_image')
+                    ->label('Vignette d’accueil')
+                    ->placeholder('-'),
+                TextEntry::make('sort_order')
+                    ->label('Ordre'),
+                IconEntry::make('is_published')
+                    ->label('Publié')
+                    ->boolean(),
                 TextEntry::make('title')
                     ->placeholder('-'),
                 TextEntry::make('subtitle')

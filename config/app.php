@@ -56,6 +56,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Compte administrateur (seeding)
+    |--------------------------------------------------------------------------
+    |
+    | Identifiants utilisés par le DatabaseSeeder pour créer/mettre à jour le
+    | compte administrateur du back-office en production. À définir dans le
+    | fichier .env de production.
+    |
+    */
+
+    'admin_email' => env('ADMIN_EMAIL'),
+
+    'admin_password' => env('ADMIN_PASSWORD'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

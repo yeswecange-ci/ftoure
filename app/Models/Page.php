@@ -2,17 +2,29 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ResolvesMediaUrl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Page extends Model
 {
+    use ResolvesMediaUrl;
+
+    /** Univers publiés, classés par ordre d'affichage. */
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true)->orderBy('sort_order');
+    }
+
     protected $fillable = [
         'slug',
+        'name',
         'title',
         'subtitle',
         'header_image',
+        'card_image',
+        'sort_order',
+        'is_published',
         'bio_title',
         'bio_content',
         'bio_image_1',
@@ -21,6 +33,11 @@ class Page extends Model
         'booking_description',
         'booking_phone',
         'booking_email',
+    ];
+
+    protected $casts = [
+        'is_published' => 'boolean',
+        'sort_order' => 'integer',
     ];
 
     public function works()
@@ -48,9 +65,27 @@ class Page extends Model
         return $this->hasMany(SocialLink::class);
     }
 
+    /**
+     * Libellé d'affichage de l'univers (page d'accueil, navigation…).
+     * Retombe sur le slug capitalisé si aucun nom n'est renseigné.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->name ?: ucfirst($this->slug);
+    }
+
     public function getHeaderImageUrlAttribute(): ?string
     {
         return $this->resolveMediaUrl($this->header_image);
+    }
+
+    /**
+     * Image de la vignette d'univers : retombe sur l'image d'en-tête
+     * si aucune image de carte dédiée n'est définie.
+     */
+    public function getCardImageUrlAttribute(): ?string
+    {
+        return $this->resolveMediaUrl($this->card_image ?: $this->header_image);
     }
 
     public function getBioImage1UrlAttribute(): ?string
@@ -66,16 +101,5 @@ class Page extends Model
     public function getBioImage3UrlAttribute(): ?string
     {
         return $this->resolveMediaUrl($this->bio_image_3);
-    }
-
-    protected function resolveMediaUrl(?string $path): ?string
-    {
-        if (! $path) {
-            return null;
-        }
-
-        return Str::startsWith($path, 'img/')
-            ? asset($path)
-            : Storage::url($path);
     }
 }

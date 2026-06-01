@@ -10,8 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         *{
@@ -56,50 +55,34 @@
     <!-- Header -->
     <header class="w-full max-w-7xl px-4 mb-12">
         <h1 class="text-4xl md:text-7xl font-bold tracking-tight mb-6 uppercase leading-tight">
-            BIENVENUE DANS<br>
-            L'UNIVERS DE FAT TOURÉ
+            {!! nl2br(e($settings->home_title ?: "BIENVENUE DANS\nL'UNIVERS DE FAT TOURÉ")) !!}
         </h1>
         <p class="text-sm md:text-base tracking-[0.2em] font-light uppercase">
-            CLIQUEZ SUR UNE PHOTO POUR DÉCOUVRIR L'UNIVERS
+            {{ $settings->home_subtitle ?: "CLIQUEZ SUR UNE PHOTO POUR DÉCOUVRIR L'UNIVERS" }}
         </p>
     </header>
 
     <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl px-4">
-        <!-- Actrice -->
-        <a href="{{ route('actrice') }}" class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
-            <div class="floating delay-1">
-                <img src="{{ asset('img/actrice.png') }}" alt="Actrice" class="w-full h-full object-cover">
+        @foreach($universes as $universe)
+        <a href="{{ \Illuminate\Support\Facades\Route::has($universe->slug) ? route($universe->slug) : '#' }}"
+           class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
+            <div class="floating delay-{{ min($loop->iteration, 4) }}">
+                @if($universe->card_image_url)
+                <img src="{{ $universe->card_image_url }}" alt="{{ $universe->display_name }}" class="w-full h-full object-cover">
+                @endif
             </div>
         </a>
-
-        <!-- Présentatrice -->
-        <a href="{{ route('presentatrice') }}" class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
-            <div class="floating delay-2">
-                <img src="{{ asset('img/presentatrice.png') }}" alt="Présentatrice" class="w-full h-full object-cover">
-            </div>
-        </a>
-
-        <!-- Modèle -->
-        <a href="{{ route('modele') }}" class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
-            <div class="floating delay-3">
-                <img src="{{ asset('img/modèle.png') }}" alt="Modèle" class="w-full h-full object-cover">
-            </div>
-        </a>
-
-        <!-- Entrepreneur -->
-        <a href="{{ route('entrepreneur') }}" class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
-            <div class="floating delay-4">
-                <img src="{{ asset('img/entrepreneur.png') }}" alt="Entrepreneur Immobilier" class="w-full h-full object-cover">
-            </div>
-        </a>
+        @endforeach
     </main>
 
     <!-- Footer -->
+    @if($settings->booking_phone || $settings->booking_email)
     <footer class="mt-16 w-full max-w-7xl px-4">
         <p class="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase opacity-90">
-            BOOKING : 0000000000000000 / 0000000000 / EMAILFATTOURÉ@BOOKING.COM
+            BOOKING : {{ collect([$settings->booking_phone, $settings->booking_email])->filter()->implode(' / ') }}
         </p>
     </footer>
+    @endif
 
 </body>
 </html>

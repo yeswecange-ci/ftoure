@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ResolvesMediaUrl;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class News extends Model
 {
+    use ResolvesMediaUrl;
+
     protected $fillable = [
         'page_id',
         'title',
@@ -17,6 +18,10 @@ class News extends Model
         'is_featured',
     ];
 
+    protected $casts = [
+        'is_featured' => 'boolean',
+    ];
+
     public function page()
     {
         return $this->belongsTo(Page::class);
@@ -24,12 +29,6 @@ class News extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if (! $this->image) {
-            return null;
-        }
-
-        return Str::startsWith($this->image, 'img/')
-            ? asset($this->image)
-            : Storage::url($this->image);
+        return $this->resolveMediaUrl($this->image);
     }
 }
