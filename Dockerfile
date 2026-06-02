@@ -52,6 +52,9 @@ RUN composer install \
         --no-scripts
 
 # ── Code source ───────────────────────────────────────────────────────────────
+# Passer --build-arg CACHEBUST=$(date +%s) pour forcer un rebuild complet
+ARG CACHEBUST=1
+RUN echo "Build: $CACHEBUST"
 COPY . .
 
 # Assets front-end compilés
