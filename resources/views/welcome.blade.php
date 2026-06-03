@@ -68,9 +68,13 @@
            class="group relative aspect-[3/4] overflow-hidden rounded-2xl transition-all duration-500 hover:scale-105 shadow-2xl">
             <div class="floating delay-{{ min($loop->iteration, 4) }}">
                 @if($universe->card_image_url)
-                <img src="{{ $universe->card_image_url }}" alt="{{ $universe->display_name }}" class="w-full h-full object-cover">
+                <img src="{{ $universe->card_image_url }}" alt="{{ $universe->display_name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 @endif
             </div>
+            <div class="card-overlay absolute inset-0"></div>
+            <span class="absolute bottom-6 left-6 right-6 text-white font-bold uppercase tracking-[0.15em] text-sm md:text-base leading-snug drop-shadow-md">
+                {{ $universe->display_name }}
+            </span>
         </a>
         @endforeach
     </main>
