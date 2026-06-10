@@ -85,13 +85,13 @@
             <!-- Main Title -->
             <div class="flex-grow flex items-center justify-start md:justify-center py-12 md:py-0">
                 <div class="relative w-full max-w-lg md:max-w-none">
-                    <h1 class="text-[40px] md:text-6xl lg:text-7xl font-light text-gray-800 uppercase leading-[1.1] tracking-tight">
+                    <h1 class="text-[40px] md:text-6xl lg:text-6xl font-light text-gray-800 uppercase leading-[1.1] tracking-tight">
                         {{ $page->title }}<br>
 
-                        <span class="text-6xl md:text-[100px] lg:text-[120px] font-normal block mt-2">{{ $page->subtitle }}</span>
+                        <span class="text-6xl md:text-[100px] lg:text-[100px] font-normal block mt-2">{{ $page->subtitle }}</span>
                     </h1>
                     <div class="absolute @yield('hero-label-offset', '-bottom-6 md:-bottom-20') left-1/3 md:left-1/2 transform -translate-x-1/4">
-                        <span class="font-script text-6xl md:text-8xl lg:text-9xl text-custom-red -rotate-12 block">@yield('hero-label')</span>
+                        <span class="font-script text-6xl md:text-7xl lg:text-8xl text-custom-red -rotate-12 block">@yield('hero-label')</span>
                     </div>
                 </div>
             </div>
@@ -143,20 +143,24 @@
     @if($otherUniverses->isNotEmpty())
     <section class="bg-[#0d0d0d] py-16 md:py-24 px-4">
         <div class="max-w-7xl mx-auto">
-            <p class="text-center text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-white/40 mb-10 md:mb-16">
+            <p class="text-center text-[20px] font-bold tracking-[0.4em] uppercase text-white/40 mb-10 md:mb-16">
                 DÉCOUVREZ AUSSI
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 justify-items-center">
                 @foreach($otherUniverses as $universe)
                 <a href="{{ \Illuminate\Support\Facades\Route::has($universe->slug) ? route($universe->slug) : '#' }}"
-                   class="group relative aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl block">
+                class="group relative aspect-[3/4] w-full max-w-[240px] overflow-hidden rounded-2xl block">
+
                     @if($universe->card_image_url)
                     <img src="{{ $universe->card_image_url }}"
-                         alt="{{ $universe->display_name }}"
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        alt="{{ $universe->display_name }}"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     @endif
+
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
-                    <span class="absolute bottom-6 left-6 right-6 text-white font-bold uppercase tracking-[0.15em] text-xs md:text-sm leading-snug">
+
+                    <span class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase tracking-[0.15em] text-xs md:text-sm leading-snug">
                         {{ $universe->display_name }}
                     </span>
                 </a>
