@@ -60,6 +60,15 @@ COPY . .
 # Assets front-end compilés
 COPY --from=frontend /app/public/build ./public/build
 
+# Dossiers runtime exclus par .dockerignore (cache/logs/sessions/vues)
+# Recréés ici : Laravel en a besoin au build (manifest) et au démarrage (optimize)
+RUN mkdir -p \
+        bootstrap/cache \
+        storage/framework/cache \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs
+
 # Scripts post-install
 RUN composer run-script post-autoload-dump --no-interaction 2>/dev/null || true
 
