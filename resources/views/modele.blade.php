@@ -156,24 +156,28 @@
         </div>
     </section>
 
-    {{-- TEASERS (grille simple, lien direct) --}}
+    {{-- TEASERS --}}
     <section id="teasers" class="py-16 px-4 md:py-32 md:px-0 bg-white">
         <div class="container mx-auto px-4 max-w-7xl">
             <h2 class="text-3xl md:text-6xl font-light text-center text-gray-800 uppercase tracking-[0.3em] mb-12 md:mb-20">
                 TEASERS
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-16">
+            <div id="teasers-scroller" class="-mx-4 px-4 flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar mb-16 py-8">
                 @foreach ($page->teasers as $teaser)
-                <div class="bg-white rounded-[30px] overflow-hidden shadow-lg border border-gray-100">
+                @php($teaserModal = [
+                    'title'      => $teaser->title,
+                    'videoUrl'   => $teaser->video_url,
+                    'videoFile'  => $teaser->video_file ? image_url($teaser->video_file) : null,
+                ])
+                <div class="w-[360px] flex-shrink-0 snap-start bg-white rounded-[30px] overflow-hidden shadow-lg border border-gray-100 group" data-teaser-card>
                     <div class="relative aspect-square">
                         @if($teaser->poster_image)
                         <img src="{{ image_url($teaser->poster_image) }}" alt="{{ $teaser->title }}" class="w-full h-full object-cover">
                         @endif
                         @if($teaser->video_url || $teaser->video_file)
-                        @php($videoHref = $teaser->video_file ? image_url($teaser->video_file) : $teaser->video_url)
                         <div class="absolute bottom-6 right-6">
-                            <a href="{{ $videoHref }}" target="_blank" rel="noopener noreferrer"
+                            <a href="#" data-teaser-modal='@json($teaserModal)'
                                class="w-16 h-16 bg-[#00818a] rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 transition-transform duration-300">
                                 <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </a>
@@ -186,6 +190,18 @@
                     </div>
                 </div>
                 @endforeach
+            </div>
+
+            <div class="flex items-center justify-center gap-8">
+                <button type="button" id="teasers-prev" class="text-red-600 hover:scale-125 transition-transform disabled:opacity-30 disabled:hover:scale-100" aria-label="Précédent">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <div id="teasers-progress-track" class="w-64 h-[2px] bg-gray-200 relative overflow-hidden rounded">
+                    <div id="teasers-progress-indicator" class="absolute left-0 top-0 h-full bg-gray-900"></div>
+                </div>
+                <button type="button" id="teasers-next" class="text-red-600 hover:scale-125 transition-transform disabled:opacity-30 disabled:hover:scale-100" aria-label="Suivant">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
             </div>
         </div>
     </section>

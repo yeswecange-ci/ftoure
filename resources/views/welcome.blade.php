@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fat Touré - Bienvenue dans l'univers</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -51,7 +51,7 @@
     </style>
 </head>
 <body class="bg-custom-gradient min-h-screen text-white font-sans flex flex-col items-center justify-between py-12 px-4 md:px-8">
-    
+
     <!-- Header -->
     <header class="w-full max-w-7xl px-4 mb-12">
         <h1 class="text-4xl md:text-7xl font-bold tracking-tight mb-6 uppercase leading-tight">
