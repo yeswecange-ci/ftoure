@@ -17,7 +17,7 @@
     <section id="filmographie" class="py-16 px-4 md:py-[100px] md:px-0 bg-white">
         <div class="container mx-auto px-4 max-w-7xl">
             <h2 class="text-3xl md:text-6xl font-light text-center text-gray-800 uppercase tracking-[0.3em] mb-12 md:mb-20">
-                FILMOGRAPHIE
+                REALISATIONS
             </h2>
 
             <div class="md:hidden -mx-4 px-4 overflow-x-auto hide-scrollbar">
