@@ -116,12 +116,6 @@
                 </div>
                 @endforeach
             </div>
-
-            <div class="mt-12 md:mt-20 flex justify-center">
-                <a href="#" class="px-12 py-4 border border-gray-900 rounded-xl text-sm font-bold uppercase tracking-widest hover:bg-gray-900 hover:text-white transition-all duration-300">
-                    VOIR PLUS D'ACTUALITÉS
-                </a>
-            </div>
         </div>
     </section>
 
