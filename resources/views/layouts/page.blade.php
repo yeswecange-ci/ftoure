@@ -67,12 +67,12 @@
         <div class="w-full md:w-1/2 flex flex-col justify-between p-6 md:p-16 relative bg-white">
 
             <!-- Navigation -->
-            <nav class="flex items-center text-[10px] md:text-xs font-bold tracking-widest uppercase text-gray-800 mb-12 md:mb-0">
+            <nav class="flex items-center z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase text-gray-800 mb-12 md:mb-0">
                 <ul class="hidden md:flex space-x-4 md:space-x-8">
                     @yield('nav-items')
                 </ul>
 
-                <div id="google_translate_element" class="md:ml-auto @yield('translate-element-class', 'text-gray-800')"></div>
+                <!--<div id="google_translate_element" class="md:ml-auto @yield('translate-element-class', 'text-gray-800')"></div>-->
 
                 <!-- Hamburger à droite sur mobile -->
                 <button id="mobile-menu-open" class="md:hidden ml-auto p-2 focus:outline-none">
@@ -90,7 +90,7 @@
 
                         <span class="text-6xl md:text-[100px] lg:text-[100px] font-normal block mt-2">{{ $page->subtitle }}</span>
                     </h1>
-                    <div class="absolute @yield('hero-label-offset', '-bottom-6 md:-bottom-20') left-1/3 md:left-1/2 transform -translate-x-1/4">
+                    <div class="absolute @yield('hero-label-offset', '-bottom-6 md:-bottom-20') z-10left-1/3 md:left-1/2 transform -translate-x-1/4">
                         <span class="font-script text-6xl md:text-7xl lg:text-8xl text-custom-red -rotate-12 block">@yield('hero-label')</span>
                     </div>
                 </div>
