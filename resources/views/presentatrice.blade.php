@@ -151,46 +151,103 @@
 
 @section('extra-scripts')
 <script>
-    // Sélecteur de langue personnalisé (FR / EN)
     (function () {
-        var toggle = document.getElementById('lang-toggle');
-        var menu   = document.getElementById('lang-menu');
-        var label  = document.getElementById('lang-label');
+        // Teasers carousel
+        var scroller   = document.getElementById('teasers-scroller');
+        var prevBtn    = document.getElementById('teasers-prev');
+        var nextBtn    = document.getElementById('teasers-next');
+        var indicator  = document.getElementById('teasers-progress-indicator');
 
-        function readCookie(name) {
-            var m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([$?*|{}\[\]\\\/\+\^])/g, '\\$1') + '=([^;]*)'));
-            return m ? decodeURIComponent(m[1]) : '';
+        function getStep() {
+            if (!scroller) return 0;
+            var first = scroller.querySelector('[data-teaser-card]');
+            if (!first) return 0;
+            var gap = parseFloat(window.getComputedStyle(scroller).columnGap) || 0;
+            return first.getBoundingClientRect().width + gap;
         }
 
-        function currentLang() {
-            var parts = (readCookie('googtrans') || '').split('/');
-            return (parts[parts.length - 1] === 'en') ? 'en' : 'fr';
+        function updateControls() {
+            if (!scroller || !prevBtn || !nextBtn || !indicator) return;
+            var max  = scroller.scrollWidth - scroller.clientWidth;
+            var left = scroller.scrollLeft;
+            prevBtn.disabled = left <= 1;
+            nextBtn.disabled = left >= max - 1;
+            if (max <= 0) { indicator.style.width = '100%'; indicator.style.transform = 'translateX(0)'; return; }
+            indicator.style.width     = (scroller.clientWidth / scroller.scrollWidth * 100) + '%';
+            indicator.style.transform = 'translateX(' + (left / scroller.scrollWidth * 100) + '%)';
         }
 
-        function setLang(next) {
-            var value = '/fr/' + (next === 'en' ? 'en' : 'fr');
-            document.cookie = 'googtrans=' + value + ';path=/';
-            document.cookie = 'googtrans=' + value + ';path=/;domain=' + location.hostname;
-            location.reload();
+        if (scroller && prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', function () { scroller.scrollBy({ left: -getStep(), behavior: 'smooth' }); });
+            nextBtn.addEventListener('click', function () { scroller.scrollBy({ left:  getStep(), behavior: 'smooth' }); });
+            scroller.addEventListener('scroll', updateControls, { passive: true });
+            window.addEventListener('resize', updateControls);
+            updateControls();
         }
 
-        if (label) label.textContent = currentLang();
+        // Teaser modal
+        var teaserModal = document.getElementById('teaser-modal');
+        var teaserTitle = document.getElementById('teaser-modal-title');
+        var teaserIframe = document.getElementById('teaser-modal-iframe');
+        var teaserVideo  = document.getElementById('teaser-modal-video');
 
-        if (toggle) toggle.addEventListener('click', function () {
-            menu && menu.classList.toggle('hidden');
+        function toYouTubeEmbed(url) {
+            var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
+            return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : null;
+        }
+        function toVimeoEmbed(url) {
+            var m = url.match(/vimeo\.com\/(\d+)/);
+            return m ? 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1' : null;
+        }
+
+        function openTeaserModal(p) {
+            if (!teaserModal) return;
+            var videoFile = p.videoFile || '';
+            var videoUrl  = p.videoUrl  || '';
+            if (!videoFile && !videoUrl) return;
+            teaserTitle.textContent = p.title || '';
+            if (videoFile) {
+                teaserIframe.src = ''; teaserIframe.classList.add('hidden');
+                teaserVideo.src = videoFile; teaserVideo.classList.remove('hidden');
+                teaserVideo.play().catch(function () {});
+            } else {
+                var yt = toYouTubeEmbed(videoUrl);
+                var vm = yt ? null : toVimeoEmbed(videoUrl);
+                if (yt || vm) {
+                    teaserVideo.pause(); teaserVideo.removeAttribute('src'); teaserVideo.classList.add('hidden');
+                    teaserIframe.src = yt || vm; teaserIframe.classList.remove('hidden');
+                } else {
+                    teaserIframe.src = ''; teaserIframe.classList.add('hidden');
+                    teaserVideo.src = videoUrl; teaserVideo.classList.remove('hidden');
+                    teaserVideo.play().catch(function () {});
+                }
+            }
+            teaserModal.classList.remove('hidden'); teaserModal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeTeaserModal() {
+            if (!teaserModal) return;
+            teaserIframe.src = ''; teaserIframe.classList.add('hidden');
+            teaserVideo.pause(); teaserVideo.removeAttribute('src'); teaserVideo.classList.add('hidden');
+            teaserModal.classList.add('hidden'); teaserModal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        document.querySelectorAll('[data-teaser-modal]').forEach(function (trigger) {
+            trigger.addEventListener('click', function (e) {
+                e.preventDefault();
+                try { openTeaserModal(JSON.parse(trigger.getAttribute('data-teaser-modal') || '{}')); }
+                catch (_) {}
+            });
         });
-
-        if (menu) menu.querySelectorAll('[data-lang]').forEach(function (btn) {
-            btn.addEventListener('click', function () { setLang(btn.getAttribute('data-lang')); });
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!toggle || !menu) return;
-            if (!toggle.contains(e.target) && !menu.contains(e.target)) menu.classList.add('hidden');
-        });
-
+        if (teaserModal) {
+            teaserModal.querySelectorAll('[data-teaser-modal-close]').forEach(function (btn) {
+                btn.addEventListener('click', closeTeaserModal);
+            });
+        }
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && menu) menu.classList.add('hidden');
+            if (e.key === 'Escape' && teaserModal && !teaserModal.classList.contains('hidden')) closeTeaserModal();
         });
     })();
 </script>
