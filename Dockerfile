@@ -3,7 +3,10 @@ FROM node:22-alpine AS frontend
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci
+# npm install (et non npm ci) : le lock est généré sous Windows où les
+# sous-dépendances WASM (@emnapi/*) ne se résolvent pas comme sur Alpine.
+# npm install réconcilie le lock et installe les bons binaires musl (Linux).
+RUN npm install --no-audit --no-fund
 COPY . .
 RUN npm run build
 
