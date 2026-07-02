@@ -58,7 +58,6 @@
                         <p class="text-sm text-gray-600 font-light leading-relaxed mb-4">
                             {{ Str::limit($news->description, 150) }}
                             <a href="#" data-news-modal='@json($newsModal)' class="text-red-500 underline">Lire la suite</a>
-                            <a href="{{ route('news.show', [$page->slug, $news->slug]) }}" class="text-red-500 underline">· Voir la galerie</a>
                         </p>
                     </div>
                 </div>

@@ -124,13 +124,20 @@
             <p class="text-gray-500 font-light leading-relaxed mb-12 max-w-2xl mx-auto">
                 {{ $page->booking_description }}
             </p>
-            <div class="space-y-4">
-                <p class="text-xl md:text-2xl font-bold text-gray-900 tracking-wider">
-                    {{ $page->booking_phone }}
-                </p>
-                <p class="text-xl md:text-2xl font-bold text-gray-900 tracking-wider">
-                    {{ $page->booking_email }}
-                </p>
+            @php($telHref = 'tel:'.preg_replace('/[^0-9+]/', '', (string) $page->booking_phone))
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                @if($page->booking_phone)
+                <a href="{{ $telHref }}" class="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-[#d10024] px-8 py-4 text-base md:text-lg font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-[#a80017]">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    Appeler
+                </a>
+                @endif
+                @if($page->booking_email)
+                <a href="mailto:{{ $page->booking_email }}" class="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full border-2 border-gray-900 px-8 py-4 text-base md:text-lg font-bold uppercase tracking-wider text-gray-900 transition hover:bg-gray-900 hover:text-white">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Écrire un email
+                </a>
+                @endif
             </div>
         </div>
     </section>
@@ -192,9 +199,12 @@
             <div class="p-6 md:p-8">
                 <h3 id="news-modal-title" class="text-lg md:text-2xl font-bold uppercase tracking-tight text-gray-900"></h3>
                 <p id="news-modal-description" class="mt-4 text-sm md:text-base font-light leading-relaxed text-gray-700 whitespace-pre-line"></p>
-                <div class="mt-6 flex justify-end gap-6">
-                    <a id="news-modal-detail" href="#" class="text-red-500 underline hidden">Voir la galerie</a>
+                <div class="mt-8 flex flex-wrap items-center justify-end gap-4">
                     <a id="news-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="text-red-500 underline hidden">Ouvrir le lien</a>
+                    <a id="news-modal-detail" href="#" style="display:none" class="items-center gap-2 rounded-full bg-[#d10024] px-7 py-3 text-sm font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-[#a80017]">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        Voir la galerie
+                    </a>
                 </div>
             </div>
         </div>
@@ -243,9 +253,9 @@
                 }
                 if (detailEl) {
                     if (p.detailUrl) {
-                        detailEl.href = p.detailUrl; detailEl.classList.remove('hidden');
+                        detailEl.href = p.detailUrl; detailEl.style.display = 'inline-flex';
                     } else {
-                        detailEl.href = '#'; detailEl.classList.add('hidden');
+                        detailEl.href = '#'; detailEl.style.display = 'none';
                     }
                 }
                 if (p.link && p.link !== '#') {
