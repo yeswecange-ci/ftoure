@@ -4,9 +4,10 @@
 @section('hero-label', 'Actrice')
 
 @section('nav-items')
-<li><a href="#biography"    class="hover:text-custom-red transition-colors">BIOGRAPHIE</a></li>
-<li><a href="#filmographie" class="hover:text-custom-red transition-colors">FILMOGRAPHIE</a></li>
-<li><a href="#actualite"    class="hover:text-custom-red transition-colors">ACTUALITÉ</a></li>
+<li><a href="#biography"     class="hover:text-custom-red transition-colors">BIOGRAPHIE</a></li>
+<li><a href="#filmographie"  class="hover:text-custom-red transition-colors">FILMOGRAPHIE</a></li>
+<li><a href="#distinctions"  class="hover:text-custom-red transition-colors">DISTINCTIONS</a></li>
+<li><a href="#actualite"     class="hover:text-custom-red transition-colors">ACTUALITÉ</a></li>
 <li><a href="#agenda"       class="hover:text-custom-red transition-colors">AGENDA</a></li>
 <li><a href="#booking"      class="hover:text-custom-red transition-colors">BOOKING</a></li>
 @endsection
@@ -24,17 +25,17 @@
                 <div class="flex gap-4 pb-2 snap-x snap-mandatory">
                     @foreach ($page->works as $work)
                     <div class="w-[75vw] max-w-[320px] flex-shrink-0 snap-start">
-                        <div class="flex flex-col">
+                        <a href="{{ route('work.show', [$page->slug, $work->slug]) }}" class="flex flex-col group">
                             <div class="aspect-[3/4] overflow-hidden rounded-[26px] mb-5 shadow-sm">
                                 @if($work->image)
-                                <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover">
+                                <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                                 @endif
                             </div>
                             <div class="px-1">
-                                <h3 class="text-base font-bold uppercase tracking-tight mb-1 text-gray-900">{{ $work->title }}</h3>
+                                <h3 class="text-base font-bold uppercase tracking-tight mb-1 text-gray-900 group-hover:text-custom-red transition-colors">{{ $work->title }}</h3>
                                 <p class="text-sm text-gray-600 font-light">{{ $work->role_or_description }}</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     @endforeach
                 </div>
@@ -42,17 +43,62 @@
 
             <div class="hidden md:grid grid-cols-3 gap-12">
                 @foreach ($page->works as $work)
-                <div class="flex flex-col">
+                <a href="{{ route('work.show', [$page->slug, $work->slug]) }}" class="flex flex-col group">
                     <div class="aspect-[3/4] overflow-hidden rounded-[30px] mb-6 shadow-sm">
                         @if($work->image)
-                        <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover">
+                        <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         @endif
                     </div>
                     <div class="px-2">
-                        <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-1 text-gray-900">{{ $work->title }}</h3>
+                        <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-1 text-gray-900 group-hover:text-custom-red transition-colors">{{ $work->title }}</h3>
                         <p class="text-lg text-gray-600 font-light">{{ $work->role_or_description }}</p>
                     </div>
+                </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- DISTINCTIONS & NOMINATIONS --}}
+    <section id="distinctions" class="py-16 px-4 md:py-[100px] md:px-0 bg-white">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <h2 class="text-3xl md:text-6xl font-light text-center text-gray-800 uppercase tracking-[0.3em] mb-12 md:mb-20">
+                DISTINCTIONS &amp; NOMINATIONS
+            </h2>
+
+            <div class="md:hidden -mx-4 px-4 overflow-x-auto hide-scrollbar">
+                <div class="flex gap-4 pb-2 snap-x snap-mandatory">
+                    @foreach ($page->distinctions as $distinction)
+                    <div class="w-[75vw] max-w-[320px] flex-shrink-0 snap-start">
+                        <a href="{{ route('distinction.show', [$page->slug, $distinction->slug]) }}" class="flex flex-col group">
+                            <div class="aspect-[3/4] overflow-hidden rounded-[26px] mb-5 shadow-sm">
+                                @if($distinction->image)
+                                <img src="{{ image_url($distinction->image) }}" alt="{{ $distinction->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                @endif
+                            </div>
+                            <div class="px-1">
+                                <h3 class="text-base font-bold uppercase tracking-tight mb-1 text-gray-900 group-hover:text-custom-red transition-colors">{{ $distinction->title }}</h3>
+                                <p class="text-sm text-gray-600 font-light">{{ $distinction->role_or_description ?: $distinction->year_or_label }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
                 </div>
+            </div>
+
+            <div class="hidden md:grid grid-cols-3 gap-12">
+                @foreach ($page->distinctions as $distinction)
+                <a href="{{ route('distinction.show', [$page->slug, $distinction->slug]) }}" class="flex flex-col group">
+                    <div class="aspect-[3/4] overflow-hidden rounded-[30px] mb-6 shadow-sm">
+                        @if($distinction->image)
+                        <img src="{{ image_url($distinction->image) }}" alt="{{ $distinction->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        @endif
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-1 text-gray-900 group-hover:text-custom-red transition-colors">{{ $distinction->title }}</h3>
+                        <p class="text-lg text-gray-600 font-light">{{ $distinction->role_or_description ?: $distinction->year_or_label }}</p>
+                    </div>
+                </a>
                 @endforeach
             </div>
         </div>
@@ -78,7 +124,7 @@
             <div class="md:hidden -mx-4 px-4 overflow-x-auto hide-scrollbar">
                 <div class="flex gap-4 pb-2 snap-x snap-mandatory">
                     @foreach ($nonFeaturedNews as $news)
-                    @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link])
+                    @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link, 'detailUrl' => route('news.show', [$page->slug, $news->slug])])
                     <div class="w-[78vw] max-w-[340px] flex-shrink-0 snap-start">
                         <div class="flex flex-col">
                             <div class="aspect-square overflow-hidden rounded-[26px] mb-5 shadow-sm">
@@ -91,6 +137,7 @@
                                 <p class="text-sm text-gray-600 font-light leading-relaxed">
                                     {{ Str::limit($news->description, 120) }}
                                     <a href="#" data-news-modal='@json($newsModal)' class="text-red-500 underline">Lire la suite</a>
+                                    <a href="{{ route('news.show', [$page->slug, $news->slug]) }}" class="text-red-500 underline">· Voir la galerie</a>
                                 </p>
                             </div>
                         </div>
@@ -113,6 +160,7 @@
                         <p class="text-sm text-gray-600 font-light leading-relaxed mb-4">
                             {{ Str::limit($news->description, 150) }}
                             <a href="#" data-news-modal='@json($newsModal)' class="text-red-500 underline">Lire la suite</a>
+                            <a href="{{ route('news.show', [$page->slug, $news->slug]) }}" class="text-red-500 underline">· Voir la galerie</a>
                         </p>
                     </div>
                 </div>

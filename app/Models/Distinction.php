@@ -7,7 +7,7 @@ use App\Models\Concerns\HasGallery;
 use App\Models\Concerns\ResolvesMediaUrl;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Distinction extends Model
 {
     use GeneratesSlug;
     use HasGallery;
@@ -17,16 +17,17 @@ class News extends Model
         'page_id',
         'title',
         'slug',
-        'description',
+        'year_or_label',
         'image',
         'gallery',
-        'link',
-        'is_featured',
+        'role_or_description',
+        'description',
+        'sort_order',
     ];
 
     protected $casts = [
-        'is_featured' => 'boolean',
         'gallery' => 'array',
+        'sort_order' => 'integer',
     ];
 
     public function page()

@@ -46,7 +46,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                 @foreach ($page->news as $news)
-                @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link])
+                @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link, 'detailUrl' => route('news.show', [$page->slug, $news->slug])])
                 <div class="flex flex-col">
                     <div class="aspect-square overflow-hidden rounded-[30px] mb-6 shadow-sm">
                         @if($news->image)
@@ -58,6 +58,7 @@
                         <p class="text-sm text-gray-600 font-light leading-relaxed mb-4">
                             {{ Str::limit($news->description, 150) }}
                             <a href="#" data-news-modal='@json($newsModal)' class="text-red-500 underline">Lire la suite</a>
+                            <a href="{{ route('news.show', [$page->slug, $news->slug]) }}" class="text-red-500 underline">· Voir la galerie</a>
                         </p>
                     </div>
                 </div>

@@ -42,7 +42,17 @@ class Page extends Model
 
     public function works()
     {
-        return $this->hasMany(Work::class);
+        return $this->hasMany(Work::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function distinctions()
+    {
+        return $this->hasMany(Distinction::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function shootings()
+    {
+        return $this->hasMany(Shooting::class)->orderBy('sort_order')->orderBy('id');
     }
 
     public function news()

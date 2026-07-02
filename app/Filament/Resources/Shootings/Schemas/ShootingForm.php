@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\Works\Schemas;
+namespace App\Filament\Resources\Shootings\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
-class WorkForm
+class ShootingForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -24,7 +24,7 @@ class WorkForm
                 TextInput::make('year_or_label')
                     ->label('Année / libellé'),
                 TextInput::make('role_or_description')
-                    ->label('Rôle / sous-titre'),
+                    ->label('Sous-titre'),
                 FileUpload::make('image')
                     ->label('Image principale')
                     ->image(),

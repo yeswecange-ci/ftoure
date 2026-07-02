@@ -22,17 +22,17 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                 @foreach ($page->works as $work)
-                <div class="flex flex-col">
+                <a href="{{ route('work.show', [$page->slug, $work->slug]) }}" class="flex flex-col group">
                     <div class="aspect-[3/4] overflow-hidden rounded-[30px] mb-6 shadow-sm">
                         @if($work->image)
-                        <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover">
+                        <img src="{{ image_url($work->image) }}" alt="{{ $work->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         @endif
                     </div>
                     <div class="px-2">
-                        <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-1 text-gray-900">{{ $work->title }}</h3>
+                        <h3 class="text-xl md:text-2xl font-bold uppercase tracking-tight mb-1 text-gray-900 group-hover:text-custom-red transition-colors">{{ $work->title }}</h3>
                         <p class="text-lg text-gray-600 font-light">{{ $work->year_or_label }}</p>
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
         </div>
@@ -55,7 +55,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                 @foreach ($page->news as $news)
-                @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link])
+                @php($newsModal = ['title' => $news->title, 'description' => $news->description, 'image' => image_url($news->image), 'link' => $news->link, 'detailUrl' => route('news.show', [$page->slug, $news->slug])])
                 <div class="flex flex-col">
                     <div class="aspect-square overflow-hidden rounded-[30px] mb-6 shadow-sm">
                         @if($news->image)
@@ -67,6 +67,7 @@
                         <p class="text-sm text-gray-600 font-light leading-relaxed mb-4">
                             {{ Str::limit($news->description, 150) }}
                             <a href="#" data-news-modal='@json($newsModal)' class="text-red-500 underline">Lire la suite</a>
+                            <a href="{{ route('news.show', [$page->slug, $news->slug]) }}" class="text-red-500 underline">· Voir la galerie</a>
                         </p>
                     </div>
                 </div>

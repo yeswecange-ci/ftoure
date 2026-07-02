@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 class PageController extends Controller
 {
     /** Relations chargées pour l'affichage d'un univers. */
-    private const RELATIONS = ['works', 'news', 'agendas', 'teasers', 'socialLinks'];
+    private const RELATIONS = ['works', 'distinctions', 'shootings', 'news', 'agendas', 'teasers', 'socialLinks'];
 
     /**
      * Page d'accueil : sélection des univers.

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Instrument+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     <style>
         .font-script {
             font-family: 'Great Vibes', cursive;
@@ -192,7 +192,8 @@
             <div class="p-6 md:p-8">
                 <h3 id="news-modal-title" class="text-lg md:text-2xl font-bold uppercase tracking-tight text-gray-900"></h3>
                 <p id="news-modal-description" class="mt-4 text-sm md:text-base font-light leading-relaxed text-gray-700 whitespace-pre-line"></p>
-                <div class="mt-6 flex justify-end">
+                <div class="mt-6 flex justify-end gap-6">
+                    <a id="news-modal-detail" href="#" class="text-red-500 underline hidden">Voir la galerie</a>
                     <a id="news-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="text-red-500 underline hidden">Ouvrir le lien</a>
                 </div>
             </div>
@@ -229,6 +230,7 @@
             var descEl  = document.getElementById('news-modal-description');
             var imgEl   = document.getElementById('news-modal-image');
             var linkEl  = document.getElementById('news-modal-link');
+            var detailEl = document.getElementById('news-modal-detail');
 
             function openModal(p) {
                 titleEl.textContent = p.title || '';
@@ -238,6 +240,13 @@
                     imgEl.classList.remove('hidden');
                 } else {
                     imgEl.src = ''; imgEl.classList.add('hidden');
+                }
+                if (detailEl) {
+                    if (p.detailUrl) {
+                        detailEl.href = p.detailUrl; detailEl.classList.remove('hidden');
+                    } else {
+                        detailEl.href = '#'; detailEl.classList.add('hidden');
+                    }
                 }
                 if (p.link && p.link !== '#') {
                     linkEl.href = p.link; linkEl.classList.remove('hidden');

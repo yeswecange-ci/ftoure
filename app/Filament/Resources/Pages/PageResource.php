@@ -49,6 +49,8 @@ class PageResource extends Resource
         return [
             RelationManagers\NewsRelationManager::class,
             RelationManagers\WorksRelationManager::class,
+            RelationManagers\DistinctionsRelationManager::class,
+            RelationManagers\ShootingsRelationManager::class,
             RelationManagers\AgendasRelationManager::class,
             RelationManagers\TeasersRelationManager::class,
             RelationManagers\SocialLinksRelationManager::class,
