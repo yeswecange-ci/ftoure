@@ -247,6 +247,26 @@
     </section>
 
 @endsection
+
+@section('extra-modals')
+    {{-- Teaser Modal --}}
+    <div id="teaser-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80" data-teaser-modal-close></div>
+        <div class="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl">
+            <button type="button" class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow hover:bg-white" data-teaser-modal-close aria-label="Fermer">
+                <span class="text-2xl leading-none">×</span>
+            </button>
+            <div class="aspect-video bg-black">
+                <iframe id="teaser-modal-iframe" class="h-full w-full hidden" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                <video id="teaser-modal-video" class="h-full w-full hidden" controls playsinline></video>
+            </div>
+            <div class="p-6 md:p-8 bg-white">
+                <h3 id="teaser-modal-title" class="text-lg md:text-2xl font-bold uppercase tracking-tight text-gray-900"></h3>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('extra-scripts')
 <script>
     (function () {
